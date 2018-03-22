@@ -1,5 +1,5 @@
 <?php
-//lvna   
+  
 try{
 	$dsn = 'mysql:host=localhost;dbname=php1714;charset=utf8';
 	$pdo = new PDO($dsn, 'root','');
