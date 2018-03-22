@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+	<script type="text/javascript" src="ajax.js"></script>
+</head>
+<body>
+	用户名：<input type="text" name="username" id="username"><br/>
+	密码：<input type="text" name="password" id="password"><br/>
+	<input type="submit" value="添加" onclick ="add()">
+	<a href="table.html" >返回</a>
+</body>
+
+	<script type="text/javascript">
+	function add()
+	{
+		var oUsername = document.getElementById('username');
+		var oPassword = document.getElementById('password');
+		ajax({method:'get',
+			url:'add.php',
+			async:true,
+
+			data:{name:oUsername.value,password:oPassword.value,
+			 	success:null,
+			},
+		});
+	}
+	
+
+	</script>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8"/>
+	<script type="text/javascript" src="ajax.js"></script>
+</head>
+<body>
+	<table border="1" cellspacing="0" width="400" id="tab">
+	<caption ><a href="add.html">添加</a></caption>
+		<tr>
+			<th id="username">用户名</th>
+			<th id="password">密码</th>
+			<th onclick="del()">删除</th>
+		</tr>
+
+
+
+	</table>
+</body>
+	<script type="text/javascript">
+	var oUsername = document.getElementById('username');
+	var oPassword = document.getElementById('password');
+	var oTable = document.getElementById('tab');
+	//查找遍历
+window.onload = function (){
+	ajax({
+			method:'get',
+			url:'select.php',
+			async:true,
+			data:{},
+			success:success,
+		});
+	function success(data)
+	{
+		
+		// console.log(oTable);
+		var obj = JSON.parse(data);
+		
+		// console.log(obj[0]);
+		
+		for (var i in obj) {
+			
+			//创建tr
+			var oTr = document.createElement('tr');
+			oTr.id = obj[i].uid;
+			//创建td
+			var oTd1 = document.createElement('td');
+			//创建td
+			var oTd2 = document.createElement('td');
+			var oTd3 = document.createElement('td');
+			// 给每个td赋值
+			oTd1.innerHTML = obj[i].name;
+			oTd1.setAttribute
+			('ondblclick','upd(this)') ;
+			oTd1.className = 'name';
+			oTd2.setAttribute
+			('ondblclick','upd(this)') ;
+			oTd2.className = 'password';
+			oTd2.innerHTML = obj[i].password;
+			oTd3.innerHTML = '删除';
+			
+			oTd3.setAttribute
+			('onclick','del(this)') ;
+			//然后再将td放到tr里面 //
+			//然后再将td放到tr里面 //
+			oTr.appendChild(oTd1);
+			oTr.appendChild(oTd2);
+			oTr.appendChild(oTd3);
+			oTable.appendChild(oTr);
+			 // console.log(oTable);
+		}
+	}
+}
+	//删除
+	function del(obj)
+	{
+		var oId = parseInt(obj.parentNode.id);
+		obj.parentNode.remove();
+		
+		ajax({
+			method:'get',
+			url:'del.php',
+			async:true,
+			data:{id:oId},
+			success:null,
+		});
+
+	}
+	//更新
+	function upd(obj)
+	{
+		//获取文本内容
+		var oinn = obj.innerHTML;
+		// console.log(obj);
+		//获取一条数据的uid
+		var oUid = obj.parentNode.id;
+		//将文本=内容清空
+		obj.innerHTML = '';
+		var name = obj.className;
+		var oInput = document.createElement('input');
+		 oInput.setAttribute('onblur','lose(this)');
+		oInput.value = oinn;
+		
+		obj.appendChild(oInput);
+
+		
+		
+		
+	}
+	function lose(obj)
+	{
+		//保存的id
+		var oUid = obj.parentNode.parentNode.id;
+		//修改的字段
+		var oFie = obj.parentNode.className;
+		console.log(oFie);
+		//重新获取文本里面的内容
+		
+		obj.parentNode.innerHTML = obj.value;
+		//重新的内容
+		var oHu = obj.value;
+		//获取一条数据的uid
+		
+		obj.remove();
+		ajax({
+			method:'get',
+			url:'upd.php',
+			async:true,
+			data:{id:oUid,name:oFie,con:oHu},
+			success:null,
+		});
+		
+		
+		
+	}
+	
+	
+	
+	
+
+
+	</script>
+
+</html>
